@@ -1,0 +1,6 @@
+/* Добавьте этот код в файл стилей или импортируйте его из файла стилей */
+.requests-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px; /* Отступ между карточками */
+}
