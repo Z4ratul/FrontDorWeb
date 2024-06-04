@@ -1,6 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { BASE_URL } from '../main';
 
 function PartnerAddPage() {
     // Начальные значения формы
@@ -24,20 +26,33 @@ function PartnerAddPage() {
     });
 
     // Обработчик отправки формы
-    const handleSubmit = (values) => {
-        // Здесь вы можете добавить логику для обработки отправленных данных
-        console.log('Добавленный партнер:', values);
+    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/api/partner`, {
+                INN: values.inn,
+                fullName: values.fullName,
+                shortName: values.shortName
+            });
+            console.log('Добавленный партнер:', response.data);
+            alert('Партнер успешно добавлен!');
+            resetForm();
+        } catch (error) {
+            console.error('Ошибка при добавлении партнера:', error);
+            alert('Ошибка при добавлении партнера');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
         <div className="container">
-            <h3>Страница Доб. Партнера</h3>
+            <h3>Страница добавления партнера</h3>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
-                {() => (
+                {({ isSubmitting }) => (
                     <Form>
                         <div className="mb-3">
                             <label htmlFor="inn" className="form-label">ИНН</label>
@@ -54,7 +69,9 @@ function PartnerAddPage() {
                             <Field type="text" id="shortName" name="shortName" className="form-control" />
                             <ErrorMessage name="shortName" component="div" className="text-danger" />
                         </div>
-                        <button type="submit" className="btn btn-primary">Добавить партнера</button>
+                        <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                            {isSubmitting ? 'Добавление...' : 'Добавить партнера'}
+                        </button>
                     </Form>
                 )}
             </Formik>

@@ -1,8 +1,35 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { BASE_URL } from '../main';
+
+// Функция для получения списка партнеров
+const fetchPartners = async () => {
+    const { data } = await axios.get(`${BASE_URL}/api/partner`);
+    return data;
+};
+
+// Функция для создания клиента
+const createClient = async (clientData) => {
+    const { data } = await axios.post(`${BASE_URL}/api/client`, clientData);
+    return data;
+};
 
 function EmployeeAddPage() {
+    const queryClient = useQueryClient();
+
+    // Использование react-query для получения списка партнеров
+    const { data: partners, error, isLoading } = useQuery('partners', fetchPartners);
+    console.log(partners)
+    // Мутация для создания клиента
+    const mutation = useMutation(createClient, {
+        onSuccess: () => {
+            queryClient.invalidateQueries('partners');
+        },
+    });
+
     // Начальные значения формы
     const initialValues = {
         position: '',
@@ -32,10 +59,41 @@ function EmployeeAddPage() {
     });
 
     // Обработчик отправки формы
-    const handleSubmit = (values) => {
-        // Здесь вы можете добавить логику для обработки отправленных данных
-        console.log('Добавленный сотрудник:', values);
+    const handleSubmit = (values, { setSubmitting, resetForm }) => {
+        mutation.mutate(
+            {
+                position: values.position,
+                surname: values.surname,
+                name: values.name,
+                patronymic: values.patronymic,
+                telephone: values.telephone,
+                email: values.email,
+                login: values.username,
+                password: values.password,
+                PartnerId: values.partner,
+            },
+            {
+                onSuccess: () => {
+                    console.log('Добавленный сотрудник:', values);
+                    resetForm();
+                },
+                onError: (error) => {
+                    console.error('Ошибка при добавлении сотрудника:', error);
+                },
+                onSettled: () => {
+                    setSubmitting(false);
+                },
+            }
+        );
     };
+
+    if (isLoading) {
+        return <div>Загрузка...</div>;
+    }
+
+    if (error) {
+        return <div>Ошибка при загрузке партнеров</div>;
+    }
 
     return (
         <div className="container">
@@ -45,7 +103,7 @@ function EmployeeAddPage() {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
-                {() => (
+                {({ isSubmitting }) => (
                     <Form className="form-container">
                         {/* Первый столбец */}
                         <div>
@@ -97,14 +155,15 @@ function EmployeeAddPage() {
                                 <label htmlFor="partner" className="form-label">Партнер</label>
                                 <Field as="select" id="partner" name="partner" className="form-control">
                                     <option value="">Выберите партнера</option>
-                                    <option value="Partner A">Партнер A</option>
-                                    <option value="Partner B">Партнер B</option>
-                                    <option value="Partner C">Партнер C</option>
-                                    {/* Добавьте больше партнеров по мере необходимости */}
+                                    {partners?.map((partner) => (
+                                        <option key={partner?.id} value={partner?.id}>{partner?.shortName}{partner?.fullName}
+                                        {console.log(partner)}
+                                        </option>
+                                    ))}
                                 </Field>
                                 <ErrorMessage name="partner" component="div" className="text-danger" />
                             </div>
-                            <button type="submit" className="btn btn-primary">Добавить Доверенного лица</button>
+                            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Добавить Доверенного лица</button>
                         </div>
                     </Form>
                 )}

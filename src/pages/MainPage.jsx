@@ -1,6 +1,6 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import SideBar from "../components/SlideBar";
+import { Routes, Route } from 'react-router-dom';
+import SideBar from "../components/SideBar";
 import ClientsPage from './ClientsPage';
 import RequestsPage from './RequestsPage';
 import MachinesPage from './MachinesPage';
@@ -10,16 +10,16 @@ import PartnerAddPage from './PartnerAddPage';
 
 function MainPage() {
     return (
-        <div className="d-flex">
+        <div style={{ display: 'flex' }}>
             <SideBar />
-            <div className="container p-4">
+            <div style={{ flex: 1, overflowY: 'auto' }}>
                 <Routes>
-                    <Route path="clients" element={<ClientsPage />} />
-                    <Route path="requests" element={<RequestsPage />} />
-                    <Route path="machines" element={<MachinesPage />} />
-                    <Route path="partnerAdd" element={<PartnerAddPage />} />
-                    <Route path="clientAdd" element={<ClientsAddPage />} />
-                    <Route path="machineAdd" element={<MachinesAddPage />} />
+                    <Route path="/clients" element={<ClientsPage />} />
+                    <Route path="/requests" element={<RequestsPage />} />
+                    <Route path="/machines" element={<MachinesPage />} />
+                    <Route path="/partnerAdd" element={<PartnerAddPage />} />
+                    <Route path="/clientAdd" element={<ClientsAddPage />} />
+                    <Route path="/machineAdd" element={<MachinesAddPage />} />
                 </Routes>
             </div>
         </div>

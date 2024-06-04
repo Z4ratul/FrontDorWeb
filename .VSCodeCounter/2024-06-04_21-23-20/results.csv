@@ -1,0 +1,31 @@
+"filename", "language", "JavaScript", "XML", "Markdown", "HTML", "JavaScript JSX", "CSS", "JSON", "comment", "blank", "total"
+"d:\Projects\Serega\DorWeb\.eslintrc.cjs", "JavaScript", 21, 0, 0, 0, 0, 0, 0, 0, 1, 22
+"d:\Projects\Serega\DorWeb\README.md", "Markdown", 0, 0, 5, 0, 0, 0, 0, 0, 4, 9
+"d:\Projects\Serega\DorWeb\index.html", "HTML", 0, 0, 0, 13, 0, 0, 0, 0, 1, 14
+"d:\Projects\Serega\DorWeb\package-lock.json", "JSON", 0, 0, 0, 0, 0, 0, 4915, 0, 1, 4916
+"d:\Projects\Serega\DorWeb\package.json", "JSON", 0, 0, 0, 0, 0, 0, 36, 0, 1, 37
+"d:\Projects\Serega\DorWeb\public\vite.svg", "XML", 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
+"d:\Projects\Serega\DorWeb\src\App.css", "CSS", 0, 0, 0, 0, 0, 37, 0, 0, 8, 45
+"d:\Projects\Serega\DorWeb\src\App.jsx", "JavaScript JSX", 0, 0, 0, 0, 21, 0, 0, 1, 5, 27
+"d:\Projects\Serega\DorWeb\src\assets\react.svg", "XML", 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
+"d:\Projects\Serega\DorWeb\src\components\ClientCard.jsx", "JavaScript JSX", 0, 0, 0, 0, 16, 0, 0, 0, 3, 19
+"d:\Projects\Serega\DorWeb\src\components\MachineCard.css", "CSS", 0, 0, 0, 0, 0, 5, 0, 1, 1, 7
+"d:\Projects\Serega\DorWeb\src\components\MachineCard.jsx", "JavaScript JSX", 0, 0, 0, 0, 19, 0, 0, 0, 3, 22
+"d:\Projects\Serega\DorWeb\src\components\RequestCard.jsx", "JavaScript JSX", 0, 0, 0, 0, 17, 0, 0, 0, 3, 20
+"d:\Projects\Serega\DorWeb\src\components\SideBar.jsx", "JavaScript JSX", 0, 0, 0, 0, 17, 0, 0, 0, 4, 21
+"d:\Projects\Serega\DorWeb\src\index.css", "CSS", 0, 0, 0, 0, 0, 61, 0, 0, 8, 69
+"d:\Projects\Serega\DorWeb\src\main.jsx", "JavaScript JSX", 0, 0, 0, 0, 17, 0, 0, 0, 1, 18
+"d:\Projects\Serega\DorWeb\src\pages\AuthPage.css", "CSS", 0, 0, 0, 0, 0, 13, 0, 1, 2, 16
+"d:\Projects\Serega\DorWeb\src\pages\AuthPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 60, 0, 0, 1, 7, 68
+"d:\Projects\Serega\DorWeb\src\pages\ClientAddPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 154, 0, 0, 10, 12, 176
+"d:\Projects\Serega\DorWeb\src\pages\ClientPage.css", "CSS", 0, 0, 0, 0, 0, 5, 0, 1, 1, 7
+"d:\Projects\Serega\DorWeb\src\pages\ClientsPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 34, 0, 0, 0, 6, 40
+"d:\Projects\Serega\DorWeb\src\pages\MachineAddPage.css", "CSS", 0, 0, 0, 0, 0, 8, 0, 2, 2, 12
+"d:\Projects\Serega\DorWeb\src\pages\MachineAddPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 187, 0, 0, 11, 20, 218
+"d:\Projects\Serega\DorWeb\src\pages\MachinesPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 57, 0, 0, 1, 4, 62
+"d:\Projects\Serega\DorWeb\src\pages\MainPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 27, 0, 0, 0, 2, 29
+"d:\Projects\Serega\DorWeb\src\pages\PartnerAddPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 74, 0, 0, 3, 6, 83
+"d:\Projects\Serega\DorWeb\src\pages\RequestPage.css", "CSS", 0, 0, 0, 0, 0, 5, 0, 1, 1, 7
+"d:\Projects\Serega\DorWeb\src\pages\RequestsPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 35, 0, 0, 0, 6, 41
+"d:\Projects\Serega\DorWeb\vite.config.js", "JavaScript", 5, 0, 0, 0, 0, 0, 0, 1, 2, 8
+"Total", "-", 26, 2, 5, 13, 735, 134, 4951, 34, 115, 6015

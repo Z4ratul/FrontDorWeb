@@ -1,54 +1,67 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './AuthPage.css'; // Импорт файла стилей, если он есть
+// src/pages/AuthPage.jsx
+import React, { useState } from "react";
+import { BASE_URL } from "../main";
 
 function AuthPage() {
-    const [login, setLogin] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate(); // Получаем функцию navigate из хука useNavigate
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-    const handleLogin = (event) => {
-        event.preventDefault();
-        // Здесь добавьте вашу логику аутентификации
-        // Например, проверить введенные данные и убедиться, что пользователь успешно аутентифицирован
+  const onLogin = (userData) => {
+    console.log(userData)
+    localStorage.setItem("user", JSON.stringify(userData));
+    window.location.href = "/main";
+  };
 
-        // Если аутентификация успешна, переходите на страницу MainPage
-        console.log(1)
-        window.location.href = "/main"
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`${BASE_URL}/api/employee/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ login, password }),
+      });
 
-    return (
-        <div className="auth-container">
-            <div className="auth-box">
-                <h3>Страница авторизации</h3>
-                <form onSubmit={handleLogin}>
-                    <div className="mb-3">
-                        <label htmlFor="login" className="form-label">Логин</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="login"
-                            value={login}
-                            onChange={(e) => setLogin(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Пароль</label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <button type="submit" className="btn btn-primary w-100">Вход</button>
-                </form>
-            </div>
+      const data = await response.json();
+      if (response.ok) {
+        onLogin(data);
+      } else {
+        setError(data.message || "Ошибка входа");
+      }
+    } catch (e) {
+      setError("Сетевая ошибка");
+    }
+  };
+
+  return (
+    <div>
+      <h2>Вход</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Логин:</label>
+          <input
+            type="text"
+            value={login}
+            onChange={(e) => setLogin(e.target.value)}
+            required
+          />
         </div>
-    );
+        <div>
+          <label>Пароль:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <button type="submit">Войти</button>
+      </form>
+    </div>
+  );
 }
 
 export default AuthPage;

@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function SideBar() {
     return (
-        <Nav className="flex-column bg-light" style={{ width: '250px', height: '100vh' }}>
+        <Nav className="flex-column bg-light" style={{ width: '200px', height: '100vh', maxWidth: '200px',minWidth: '200px' }}>
             <Nav.Link as={Link} to="requests">Заявки</Nav.Link>
             <Nav.Link as={Link} to="clients">Клиенты</Nav.Link>
             <Nav.Link as={Link} to="machines">Машины</Nav.Link>

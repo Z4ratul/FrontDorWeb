@@ -1,67 +1,42 @@
-import React from 'react';
-import RequestCard from '../components/RequestCard';
-import "./RequestPage.css" 
+import React from "react";
+import { useQuery } from "react-query";
+import RequestCard from "../components/RequestCard";
+import "./RequestPage.css";
+import axios from "axios";
+import { BASE_URL } from "../main";
+
+const fetchRequests = async () => {
+  const response = await axios.get(`${BASE_URL}/api/request/web`);
+  console.log(response);
+  return response.data;
+};
 
 function RequestsPage() {
-    const requests = [
-        {
-            requestNumber: 1, // Номер заявки
-            client: 'Иван Иванов',
-            submissionDate: '2024-04-01',
-            closeDate: '2024-04-05',
-            service: 'Консультация',
-            partner: 'Партнер А',
-            description: 'Консультация по юридическим вопросам.',
-        },
-        {
-            requestNumber: 2, // Номер заявки
-            client: 'Анна Петрова',
-            submissionDate: '2024-04-02',
-            closeDate: '2024-04-06',
-            service: 'Аудит',
-            partner: 'Партнер Б',
-            description: 'Проведение аудита финансовой деятельности.',
-        },
-        {
-            requestNumber: 3, // Номер заявки
-            client: 'Анна Петрова',
-            submissionDate: '2024-04-02',
-            closeDate: '2024-04-06',
-            service: 'Аудит',
-            partner: 'Партнер Б',
-            description: 'Проведение аудита финансовой деятельности.',
-        },
-        {
-            requestNumber: 4, // Номер заявки
-            client: 'Анна Петрова',
-            submissionDate: '2024-04-02',
-            closeDate: '2024-04-06',
-            service: 'Аудит',
-            partner: 'Партнер Б',
-            description: 'Проведение аудита финансовой деятельности.',
-        },
-        // Добавьте больше заявок по мере необходимости
-    ];
+  const { data: requests, error, isLoading } = useQuery("requests", fetchRequests);
 
-    return (
-        <div className="container">
-            <h3>Страница Заявки</h3>
-            <div className="requests-list">
-                {requests.map((request, index) => (
-                    <RequestCard
-                        key={index}
-                        requestNumber={request.requestNumber} // Передача номера заявки в RequestCard
-                        client={request.client}
-                        submissionDate={request.submissionDate}
-                        closeDate={request.closeDate}
-                        service={request.service}
-                        partner={request.partner}
-                        description={request.description}
-                    />
-                ))}
-            </div>
-        </div>
-    );
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  return (
+    <div className="container">
+      <h3>Страница Заявки</h3>
+      <div className="requests-list">
+        {requests.map((request, index) => (
+          <RequestCard
+            key={index}
+            machine={request.Machine}
+            requestNumber={request.id} // Предположим, что 'id' является номером заявки
+            client={request.client}
+            submissionDate={request.openDate}
+            closeDate={request.closeDate}
+            service={request.ServiceList}
+            partner={request.Partner}
+            description={request.description}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default RequestsPage;

@@ -1,19 +1,26 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import AuthPage from './pages/AuthPage';
-import MainPage from './pages/MainPage';
+// src/App.jsx
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import AuthPage from "./pages/AuthPage";
+import MainPage from "./pages/MainPage";
 
 function App() {
-    // Ваша логика аутентификации должна установить значение isAuthenticated
-    const isAuthenticated = true;
+  const isAuthenticated = () => {
+    const user = localStorage.getItem("user");
+    return user !== null;
+  };
 
-    return (
-            <Routes>
-                <Route path="/auth" element={isAuthenticated ? <Navigate to="/main" /> : <AuthPage />} />
-                <Route path="/main/*" element={isAuthenticated ? <MainPage /> : <Navigate to="/auth" />} />
-                {/* Перенаправление по умолчанию на /auth, если не найден другой путь */}
-            </Routes>
-    );
+  const PrivateRoute = ({ element }) => {
+    return isAuthenticated() ? element : <Navigate to="/auth" />;
+  };
+
+  return (
+      <Routes>
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/main/*" element={<PrivateRoute element={<MainPage />} />} />
+        <Route path="*" element={<Navigate to={isAuthenticated() ? "/main" : "/auth"} />} />
+      </Routes>
+  );
 }
 
 export default App;
