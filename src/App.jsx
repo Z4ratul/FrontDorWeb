@@ -1,7 +1,7 @@
 // src/App.jsx
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import AuthPage from "./pages/AuthPage";
+import AuthPage from "./pages/AuthPage/AuthPage";
 import MainPage from "./pages/MainPage";
 
 function App() {
@@ -15,11 +15,11 @@ function App() {
   };
 
   return (
-      <Routes>
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/main/*" element={<PrivateRoute element={<MainPage />} />} />
-        <Route path="*" element={<Navigate to={isAuthenticated() ? "/main" : "/auth"} />} />
-      </Routes>
+    <Routes>
+      <Route path="/auth" element={<AuthPage />} />
+      <Route path="/main/*" element={<PrivateRoute element={<MainPage />} />} />
+      <Route path="*" element={<Navigate to={isAuthenticated() ? "/main" : "/auth"} />} />
+    </Routes>
   );
 }
 

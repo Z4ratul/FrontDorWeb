@@ -1,21 +1,42 @@
-import React from 'react';
-import "./MachineCard.css"
+import React from "react";
+import { Button, Card } from "antd";
+import { BASE_URL } from "../main";
+import { useQuery, useQueryClient } from "react-query";
+import axios from "axios";
 
-function MachineCard({ vin, modelName, serialNumber, manufactureDate, manufacturer, machineType, partner, imageUrl }) {
-    return (
-        <div className="card mb-3" style={{width: "300px"}}>
-            <div className="card-body">
-                <h5 className="card-title">Партнер: {partner?.shortName}</h5>
-                <img src={imageUrl} alt={`${modelName} изображение`} className="card-img-top machine-img mb-3" />
-                <p className="card-text">Номер VIN: {vin}</p>
-                <p className="card-text">Название модели: {modelName}</p>
-                <p className="card-text">Серийный номер: {serialNumber}</p>
-                <p className="card-text">Дата изготовления: {new Date(manufactureDate).toLocaleDateString()}</p>
-                <p className="card-text">Производитель: {manufacturer?.name}</p>
-                <p className="card-text">Тип техники: {machineType?.name}</p>
-            </div>
-        </div>
-    );
-}
+const MachineCard = ({ machine }) => {
+  const queryClient = useQueryClient();
+
+  const handleDelete = async (VINnum) => {
+    await axios.delete(`${BASE_URL}/api/machine/${VINnum}`);
+    await queryClient.invalidateQueries("machines");
+  };
+  const handleImageError = (e) => {
+    e.target.src = "https://fashionhot.club/uploads/posts/2022-12/1670311516_61-fashionhot-club-p-termobele-skins-64.jpg"; // Замените на путь к вашему изображению-заглушке
+  };
+
+  return (
+    <Card
+      cover={
+        <img
+          alt={machine?.modelName}
+          src={`${BASE_URL}/${machine?.image}`}
+          onError={handleImageError}
+          style={{ height: "300px", objectFit: "cover" }}
+        />
+      }>
+      <Card.Meta title={machine?.modelName} />
+      <p>VIN: {machine?.VINNumber}</p>
+      <p>Серийный номер: {machine?.serialNumber}</p>
+      <p>Дата производства: {new Date(machine?.dateOfManufacture).toLocaleDateString()}</p>
+      <p>Производитель: {machine?.Manufacturer?.name}</p>
+      <p>Тип машины: {machine?.MachineType?.name}</p>
+      <p>Партнер: {machine?.Partner?.shortName}</p>
+      <Button danger onClick={() => handleDelete(machine?.VINNumber)}>
+        Удалить
+      </Button>
+    </Card>
+  );
+};
 
 export default MachineCard;
