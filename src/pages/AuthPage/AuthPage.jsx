@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-
-import "./AuthPage.css"; // Импортируем файл стилей
+import { Form, Input, Button, Typography, Alert } from "antd";
 import { BASE_URL } from "../../main";
+import "./AuthPage.css"; // Импортируем файл стилей
+
+const { Title } = Typography;
 
 function AuthPage() {
   const [login, setLogin] = useState("");
@@ -11,11 +13,10 @@ function AuthPage() {
   const onLogin = (userData) => {
     console.log(userData);
     localStorage.setItem("user", JSON.stringify(userData));
-    window.location.href = "/main";
+    window.location.href = "/main/requests";
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/employee/login`, {
         method: "POST",
@@ -38,21 +39,32 @@ function AuthPage() {
 
   return (
     <div className="auth-container">
-      <h2 className="title">Вход</h2>
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label className="label">Логин:</label>
-          <input type="text" value={login} onChange={(e) => setLogin(e.target.value)} required className="input" />
-        </div>
-        <div className="input-group">
-          <label className="label">Пароль:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="input" />
-        </div>
-        {error && <p className="error">{error}</p>}
-        <button type="submit" className="button">
-          Войти
-        </button>
-      </form>
+      <Title level={2} className="title">Вход</Title>
+      <Form layout="vertical" className="form" onFinish={handleSubmit}>
+        <Form.Item label="Логин" required>
+          <Input 
+            type="text" 
+            value={login} 
+            onChange={(e) => setLogin(e.target.value)} 
+            required 
+            className="input" 
+          />
+        </Form.Item>
+        <Form.Item label="Пароль" required>
+          <Input.Password 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+            className="input" 
+          />
+        </Form.Item>
+        {error && <Alert message={error} type="error" showIcon />}
+        <Form.Item>
+          <Button type="primary" htmlType="submit" style={{width: "calc(100% - 20px)"}}>
+            Войти
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 }

@@ -126,7 +126,7 @@ const MachinesAddPage = () => {
 
   return (
     <div>
-      <Form
+      <Form layout="vertical"
         form={form}
         onFinish={handleSubmit}
         initialValues={{

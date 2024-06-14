@@ -6,7 +6,8 @@ import { useQueryClient } from "react-query";
 
 const { Option } = Select;
 
-const WorkCard = ({ work, employees, statuses, services }) => {
+const WorkCard = ({ work, employees, statuses, services, details }) => {
+  console.log(details)
   const queryClient = useQueryClient();
   console.log(work);
   const fullServicePrice = work?.FullServiceList?.price ?? 0;
@@ -18,7 +19,7 @@ const WorkCard = ({ work, employees, statuses, services }) => {
   const [status, setStatus] = useState(work.StatusId);
   const [employee, setEmployee] = useState(work.EmployeeId);
   const [service, setService] = useState(work.FullServiceListId);
-  console.log(work);
+  const [detail, setDetail] = useState(work.DetailVendorCode ?? null);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -30,6 +31,7 @@ const WorkCard = ({ work, employees, statuses, services }) => {
         StatusId: status,
         EmployeeId: employee,
         FullServiceListId: service,
+        DetailVendorCode: detail,
       });
       await queryClient.invalidateQueries("works");
       console.log("Updated work:", response.data);
@@ -42,7 +44,7 @@ const WorkCard = ({ work, employees, statuses, services }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  console.log(work.FullServiceList.name);
+
   return (
     <>
       <Card title="Работа" style={{ height: "320px" }} onClick={showModal}>
@@ -91,7 +93,17 @@ const WorkCard = ({ work, employees, statuses, services }) => {
         </p>
         <p>Описание клиента: {work.Request.description}</p>
 
-        {work?.Detail?.detailName && <p>Деталь: {work?.Detail?.detailName}</p>}
+        <p>
+          Деталь:
+          <Select value={detail} onChange={setDetail} style={{ width: 220, margin: "0px 0px 0px 10px" }}>
+            <Option value={null}>Нет детали</Option>
+            {details.map((det) => (
+              <Option key={det.vendorCode} value={det.vendorCode}>
+                {det.detailName}
+              </Option>
+            ))}
+          </Select>
+        </p>
         <p>Цена: {totalPrice} руб.</p>
       </Modal>
     </>

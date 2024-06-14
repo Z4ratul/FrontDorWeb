@@ -1,8 +1,13 @@
 // Navbar.js
 import React from "react";
-import { Menu } from "antd";
+import { Button, Menu } from "antd";
 import { Link } from "react-router-dom";
-import { UserOutlined, SolutionOutlined, CarOutlined, ToolOutlined, PlusOutlined } from "@ant-design/icons";
+import { UserOutlined, SolutionOutlined, CarOutlined, ToolOutlined, PlusOutlined, LogoutOutlined } from "@ant-design/icons";
+
+const handleLogoutClick = () => {
+  // localStorage.removeItem("user");
+  window.location.href = "/auth";
+};
 
 const Navbar = () => (
   <Menu mode="horizontal" style={{ lineHeight: "48px", position: "fixed", width: "100%", zIndex: 1000, padding: "0px 240px" }}>
@@ -18,6 +23,9 @@ const Navbar = () => (
     <Menu.Item key="works" icon={<ToolOutlined />}>
       <Link to="works">Работы</Link>
     </Menu.Item>
+    <Menu.Item key="statistic" icon={<ToolOutlined />}>
+      <Link to="statistic">Статистика</Link>
+    </Menu.Item>
 
     <Menu.Item key="workAdd" style={{ marginLeft: "auto" }} icon={<PlusOutlined />}>
       <Link to="workAdd">Назначить работу</Link>
@@ -30,6 +38,11 @@ const Navbar = () => (
     </Menu.Item>
     <Menu.Item key="machineAdd" icon={<PlusOutlined />}>
       <Link to="machineAdd">Добавить машину</Link>
+    </Menu.Item>
+    <Menu.Item key="logout" icon={<LogoutOutlined style={{ color: "red" }}/>}>
+      <Link to="login" onClick={handleLogoutClick} style={{ color: "red" }}>
+        Выйти
+      </Link>
     </Menu.Item>
   </Menu>
 );

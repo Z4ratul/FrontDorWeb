@@ -11,7 +11,7 @@ function RequestCard({ request }) {
 
   return (
     <>
-      <Card title={`Заявка №${request.id}`} style={{ marginBottom: "16px", height: "400px" }}>
+      <Card title={`Заявка №${request.id}`} style={{ marginBottom: "16px"}}>
         <p>
           <strong>Машина:</strong> {request.Machine?.modelName}
         </p>

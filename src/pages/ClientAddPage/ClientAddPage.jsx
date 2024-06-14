@@ -15,6 +15,7 @@ const fetchPartners = async () => {
 
 // Функция для создания клиента
 const createClient = async (clientData) => {
+  console.log(clientData);
   const { data } = await axios.post(`${BASE_URL}/api/client`, clientData);
   return data;
 };
@@ -28,9 +29,9 @@ const validationSchema = Yup.object().shape({
     .required("Телефон обязателен")
     .matches(/^\+?[0-9\s-]{7,15}$/, "Неправильный формат телефона"),
   email: Yup.string().email("Неправильный формат электронной почты").required("Электронная почта обязательна"),
-  username: Yup.string().required("Логин обязателен"),
+  login: Yup.string().required("Логин обязателен"),
   password: Yup.string().required("Пароль обязателен"),
-  partner: Yup.string().required("Партнер обязателен"),
+  PartnerId: Yup.string().required("Партнер обязателен"),
 });
 
 function EmployeeAddPage() {
@@ -50,6 +51,7 @@ function EmployeeAddPage() {
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (values) => {
+    console.log(values);
     setSubmitting(true);
     try {
       await validationSchema.validate(values, { abortEarly: false });
@@ -89,8 +91,8 @@ function EmployeeAddPage() {
   return (
     <div>
       <Form
+        layout="vertical"
         form={form}
-    
         onFinish={handleSubmit}
         initialValues={{
           position: "",
@@ -99,9 +101,9 @@ function EmployeeAddPage() {
           patronymic: "",
           telephone: "",
           email: "",
-          username: "",
+          login: "",
           password: "",
-          partner: "",
+          PartnerId: "",
         }}>
         <Form.Item label="Должность" name="position" rules={[{ required: true, message: "Должность обязательна" }]}>
           <Input />
@@ -133,13 +135,15 @@ function EmployeeAddPage() {
           ]}>
           <Input />
         </Form.Item>
-        <Form.Item label="Логин" name="username" rules={[{ required: true, message: "Логин обязателен" }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item label="Пароль" name="password" rules={[{ required: true, message: "Пароль обязателен" }]}>
-          <Input.Password />
-        </Form.Item>
-        <Form.Item label="Партнер" name="partner" rules={[{ required: true, message: "Партнер обязателен" }]}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Form.Item label="Логин" name="login" rules={[{ required: true, message: "Логин обязателен" }]} style={{ flex: 1, marginRight: '10px' }}>
+            <Input />
+          </Form.Item>
+          <Form.Item label="Пароль" name="password" rules={[{ required: true, message: "Пароль обязателен" }]} style={{ flex: 1 }}>
+            <Input.Password />
+          </Form.Item>
+        </div>
+        <Form.Item label="Партнер" name="PartnerId" rules={[{ required: true, message: "Партнер обязателен" }]}>
           <Select placeholder="Выберите партнера">
             {partners?.map((partner) => (
               <Option key={partner.id} value={partner.id}>

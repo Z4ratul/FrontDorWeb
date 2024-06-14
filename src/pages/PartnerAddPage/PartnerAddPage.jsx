@@ -30,7 +30,7 @@ function PartnerAddPage() {
 
   return (
     <div>
-      <Form form={form} name="partner_form" initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
+      <Form layout="vertical"  form={form} name="partner_form" initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
         <Item
           label="ИНН"
           name="inn"

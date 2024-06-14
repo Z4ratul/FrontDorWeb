@@ -11,6 +11,7 @@ import ClientAddPage from "./ClientAddPage/ClientAddPage";
 import MachineAddPage from "./MachineAddPage/MachineAddPage";
 import WorksPage from "./WorksPage/WorksPage";
 import WorkAddPage from "./WorkAddPage/WorkAddPage";
+import StatisticPage from "./StatisticPage/StatisticPage";
 
 const { Content } = Layout;
 
@@ -29,6 +30,8 @@ function MainPage() {
           <Route path="/requests" element={<RequestsPage />} />
           <Route path="/machines" element={<MachinesPage />} />
           <Route path="/works" element={<WorksPage />} />
+          <Route path="/statistic" element={<StatisticPage />} />
+
           <Route path="/partnerAdd" element={<PartnerAddPage />} />
           <Route path="/clientAdd" element={<ClientAddPage />} />
           <Route path="/machineAdd" element={<MachineAddPage />} />
