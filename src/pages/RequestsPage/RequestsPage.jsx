@@ -12,14 +12,16 @@ const fetchRequests = async () => {
 
 function RequestsPage() {
   const { data: requests, error, isLoading } = useQuery("requests", fetchRequests);
-  console.log(requests)
+  
   if (isLoading) return <Spin tip="Loading..." />;
   if (error) return <Alert message="Error" description={error.message} type="error" showIcon />;
 
-  // Sort the requests by openDate
-  const sortedRequests = requests.slice().sort((a, b) => new Date(a.openDate) - new Date(b.openDate));
-
-  console.log(sortedRequests);
+  // Sort the requests: first by existence of closeDate, then by openDate
+  const sortedRequests = requests.sort((a, b) => {
+    if (a.closeDate && !b.closeDate) return 1;
+    if (!a.closeDate && b.closeDate) return -1;
+    return new Date(b.openDate) - new Date(a.openDate);
+  });
 
   return (
     <div>

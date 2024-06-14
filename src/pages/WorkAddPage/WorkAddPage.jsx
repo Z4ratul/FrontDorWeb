@@ -28,6 +28,7 @@ const fetchDetails = async () => {
 
 const fetchRequests = async () => {
   const { data } = await axios.get(`${BASE_URL}/api/request/partner/web`);
+  console.log(data);
   return data;
 };
 
@@ -83,6 +84,18 @@ const WorkAddPage = () => {
   return (
     <div>
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
+        <Form.Item name="request" label="Заявка" rules={[{ required: true, message: "Пожалуйста, выберите заявку" }]}>
+          <Select placeholder="Выберите заявку" allowClear>
+            {requests
+              .filter((req) => !req.closeDate)
+              .sort((a, b) => a.id - b.id)
+              .map((req) => (
+                <Option key={req.id} value={req.id}>
+                  Заявка №{req.id} "{req.ServiceList.name}"
+                </Option>
+              ))}
+          </Select>
+        </Form.Item>
         <Form.Item name="service" label="Услуга" rules={[{ required: true, message: "Пожалуйста, выберите услугу" }]}>
           <Select placeholder="Выберите услугу" allowClear>
             {services.map((serv) => (
@@ -111,15 +124,7 @@ const WorkAddPage = () => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item name="request" label="Запрос" rules={[{ required: true, message: "Пожалуйста, выберите запрос" }]}>
-          <Select placeholder="Выберите запрос" allowClear>
-            {requests.map((req) => (
-              <Option key={req.id} value={req.id}>
-                {req.description}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
+
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Создать работу

@@ -1,4 +1,4 @@
-import { Card, Modal, Select, Button } from "antd";
+import { Card, Modal, Select, Button, Tag } from "antd";
 import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../main";
@@ -47,12 +47,12 @@ const WorkCard = ({ work, employees, statuses, services, details }) => {
 
   return (
     <>
-      <Card title="Работа" style={{ height: "320px" }} onClick={showModal}>
+      <Card title={`Работа над заявкой №${work.Request.id}`} style={{ height: "320px" }} onClick={showModal}>
         <p>Услуга: {work.FullServiceList.name}</p>
         <p>
           Сотрудник: {work.Employee.name} {work.Employee.surname}
         </p>
-        <p>Статус: {work.Status.name}</p>
+        <p>Статус: {work.Status.name == "В работе" ? <Tag color="#F4C55C" style={{ color: "black" }}>В работе</Tag> : <Tag>Выполнена</Tag>}</p>
         <p>Описание клиента: {work.Request.description}</p>
 
         {work?.Detail?.detailName && <p>Деталь: {work?.Detail?.detailName}</p>}

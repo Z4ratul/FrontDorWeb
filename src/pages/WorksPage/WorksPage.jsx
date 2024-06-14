@@ -7,7 +7,17 @@ import { List, Spin } from "antd";
 
 const fetchWorks = async () => {
   const { data } = await axios.get(`${BASE_URL}/api/work/web`);
-  return data.sort((a, b) => a.id - b.id);
+  
+  // Разделяем работы на две группы: "В работе" и остальные
+  const inProgressWorks = data.filter(work => work.Status.name === "В работе");
+  const otherWorks = data.filter(work => work.Status.name !== "В работе");
+
+  // Сортируем каждую группу отдельно по id
+  inProgressWorks.sort((a, b) => a.id - b.id);
+  otherWorks.sort((a, b) => a.id - b.id);
+
+  // Объединяем группы, чтобы сначала шли работы "В работе"
+  return [...inProgressWorks, ...otherWorks];
 };
 
 const fetchEmployees = async () => {
@@ -17,6 +27,7 @@ const fetchEmployees = async () => {
 
 const fetchStatuses = async () => {
   const { data } = await axios.get(`${BASE_URL}/api/status`);
+  console.log(data);
   return data;
 };
 
@@ -38,9 +49,12 @@ const WorksPage = () => {
   const { data: statuses, error: statusesError, isLoading: statusesLoading } = useQuery("statuses", fetchStatuses);
   const { data: services, error: servicesError, isLoading: servicesLoading } = useQuery("services", fetchServices);
   const { data: details, error: detailsError, isLoading: detailsLoading } = useQuery("details", fetchDetails);
+
   if (worksLoading || employeesLoading || statusesLoading || servicesLoading || detailsLoading) return <Spin size="large" />;
   if (worksError || employeesError || statusesError || servicesError || detailsError) return <div>Error loading data</div>;
+
   console.log(works);
+
   return (
     <div>
       <List
@@ -48,7 +62,7 @@ const WorksPage = () => {
         dataSource={works}
         renderItem={(work) => (
           <List.Item>
-            <WorkCard work={work} employees={employees} statuses={statuses} services={services} details={details}/>
+            <WorkCard work={work} employees={employees} statuses={statuses} services={services} details={details} />
           </List.Item>
         )}
       />

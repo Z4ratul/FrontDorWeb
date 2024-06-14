@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Modal, Button, Form, DatePicker, Input } from "antd";
+import { Card, Modal, Button, Form, DatePicker, Input, Tag, Flex } from "antd";
 import moment from "moment"; // добавим импорт moment
 
 const { RangePicker } = DatePicker;
@@ -11,7 +11,20 @@ function RequestCard({ request }) {
 
   return (
     <>
-      <Card title={`Заявка №${request.id}`} style={{ marginBottom: "16px"}}>
+      <Card
+        title={
+          <Flex>
+            Заявка №{request.id}
+            {!request.closeDate ? (
+              <Tag color="#F4C55C" style={{ marginLeft: "auto", color: "black" }}>
+                Заявка открыта
+              </Tag>
+            ) : (
+              <Tag style={{ marginLeft: "auto" }}>Заявка закрыта</Tag>
+            )}
+          </Flex>
+        }
+        style={{ marginBottom: "16px" }}>
         <p>
           <strong>Машина:</strong> {request.Machine?.modelName}
         </p>
@@ -19,10 +32,10 @@ function RequestCard({ request }) {
           <strong>Клиент:</strong> {request.Partner?.shortName}
         </p>
         <p>
-          <strong>Дата подачи:</strong> {request.openDate}
+          <strong>Дата подачи:</strong> {moment(request.openDate).format("DD.MM.YYYY")}
         </p>
         <p>
-          <strong>Дата закрытия:</strong> {request.closeDate}
+          <strong>Дата закрытия:</strong> {request.closeDate && moment(request.closeDate).format("DD.MM.YYYY")}
         </p>
         <p>
           <strong>Услуга:</strong> {request.ServiceList?.name}

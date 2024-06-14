@@ -2,7 +2,7 @@
 import React from "react";
 import { Button, Menu } from "antd";
 import { Link } from "react-router-dom";
-import { UserOutlined, SolutionOutlined, CarOutlined, ToolOutlined, PlusOutlined, LogoutOutlined } from "@ant-design/icons";
+import { UserOutlined, SolutionOutlined, CarOutlined, ToolOutlined, PlusOutlined, LogoutOutlined, BarChartOutlined } from "@ant-design/icons";
 
 const handleLogoutClick = () => {
   // localStorage.removeItem("user");
@@ -23,7 +23,7 @@ const Navbar = () => (
     <Menu.Item key="works" icon={<ToolOutlined />}>
       <Link to="works">Работы</Link>
     </Menu.Item>
-    <Menu.Item key="statistic" icon={<ToolOutlined />}>
+    <Menu.Item key="statistic" icon={<BarChartOutlined />}>
       <Link to="statistic">Статистика</Link>
     </Menu.Item>
 
@@ -39,7 +39,7 @@ const Navbar = () => (
     <Menu.Item key="machineAdd" icon={<PlusOutlined />}>
       <Link to="machineAdd">Добавить машину</Link>
     </Menu.Item>
-    <Menu.Item key="logout" icon={<LogoutOutlined style={{ color: "red" }}/>}>
+    <Menu.Item key="logout" icon={<LogoutOutlined style={{ color: "red" }} />}>
       <Link to="login" onClick={handleLogoutClick} style={{ color: "red" }}>
         Выйти
       </Link>
