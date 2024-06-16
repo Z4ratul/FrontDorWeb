@@ -61,7 +61,7 @@ const StatisticPage = () => {
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: "600px", margin: "0 auto" }}>
       <Bar data={data} options={options} />
     </div>
   );
