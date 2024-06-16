@@ -1,5 +1,5 @@
 import { Card, Modal, Select, Button, Tag } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../main";
 import { useQueryClient } from "react-query";
@@ -7,12 +7,9 @@ import { useQueryClient } from "react-query";
 const { Option } = Select;
 
 const WorkCard = ({ work, employees, statuses, services, details }) => {
-  console.log(details)
   const queryClient = useQueryClient();
-  console.log(work);
   const fullServicePrice = work?.FullServiceList?.price ?? 0;
   const detailPrice = work?.Detail?.price ?? 0;
-
   const totalPrice = parseFloat(fullServicePrice) + parseFloat(detailPrice);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -20,6 +17,15 @@ const WorkCard = ({ work, employees, statuses, services, details }) => {
   const [employee, setEmployee] = useState(work.EmployeeId);
   const [service, setService] = useState(work.FullServiceListId);
   const [detail, setDetail] = useState(work.DetailVendorCode ?? null);
+
+  useEffect(() => {
+    if (isModalVisible) {
+      setStatus(work.StatusId);
+      setEmployee(work.EmployeeId);
+      setService(work.FullServiceListId);
+      setDetail(work.DetailVendorCode ?? null);
+    }
+  }, [isModalVisible, work]);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -52,9 +58,8 @@ const WorkCard = ({ work, employees, statuses, services, details }) => {
         <p>
           Сотрудник: {work.Employee.name} {work.Employee.surname}
         </p>
-        <p>Статус: {work.Status.name == "В работе" ? <Tag color="#F4C55C" style={{ color: "black" }}>В работе</Tag> : <Tag>Выполнена</Tag>}</p>
+        <p>Статус: {work.Status.name === "В работе" ? <Tag color="#F4C55C" style={{ color: "black" }}>В работе</Tag> : <Tag>Выполнено</Tag>}</p>
         <p>Описание клиента: {work.Request.description}</p>
-
         {work?.Detail?.detailName && <p>Деталь: {work?.Detail?.detailName}</p>}
         <p>
           Цена: {fullServicePrice} ₽ + {detailPrice} ₽ = {totalPrice} ₽
@@ -92,7 +97,6 @@ const WorkCard = ({ work, employees, statuses, services, details }) => {
           </Select>
         </p>
         <p>Описание клиента: {work.Request.description}</p>
-
         <p>
           Деталь:
           <Select value={detail} onChange={setDetail} style={{ width: 220, margin: "0px 0px 0px 10px" }}>

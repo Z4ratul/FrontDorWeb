@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Select, Button, message, Tag } from "antd";
 import axios from "axios";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { BASE_URL } from "../../main";
 
 const { Option } = Select;
@@ -28,7 +28,11 @@ const fetchDetails = async () => {
 
 const fetchRequests = async () => {
   const { data } = await axios.get(`${BASE_URL}/api/request/partner/web`);
-  console.log(data);
+  return data;
+};
+
+const createWork = async (newWork) => {
+  const { data } = await axios.post(`${BASE_URL}/api/work`, newWork);
   return data;
 };
 
@@ -42,14 +46,20 @@ const WorkAddPage = () => {
   const { data: details, error: detailsError, isLoading: detailsLoading } = useQuery("details", fetchDetails);
   const { data: requests, error: requestsError, isLoading: requestsLoading } = useQuery("requests", fetchRequests);
 
-  const [employee, setEmployee] = useState(null);
-  const [service, setService] = useState(null);
-  const [detail, setDetail] = useState(null);
-  const [request, setRequest] = useState(null);
-  console.log(employees);
+  const mutation = useMutation(createWork, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("works");
+      message.success("Работа успешно создана");
+      form.resetFields();
+    },
+    onError: (error) => {
+      console.error("Error creating work:", error);
+      message.error("Ошибка при создании работы");
+    },
+  });
+
   const handleSubmit = async (values) => {
     try {
-      // Найти ID статуса "В работе"
       const inProgressStatus = statuses.find((status) => status.name === "В работе");
       const statusId = inProgressStatus ? inProgressStatus.id : null;
 
@@ -57,16 +67,13 @@ const WorkAddPage = () => {
         throw new Error("Статус 'В работе' не найден");
       }
 
-      await axios.post(`${BASE_URL}/api/work`, {
+      mutation.mutate({
         StatusId: statusId,
         EmployeeId: values.employee,
         FullServiceListId: values.service,
         DetailVendorCode: values.detail,
         RequestId: values.request,
       });
-      await queryClient.invalidateQueries("works");
-      message.success("Работа успешно создана");
-      form.resetFields();
     } catch (error) {
       console.error("Error creating work:", error);
       message.error("Ошибка при создании работы");
