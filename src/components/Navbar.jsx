@@ -5,17 +5,17 @@ import { Link } from "react-router-dom";
 import { UserOutlined, SolutionOutlined, CarOutlined, ToolOutlined, PlusOutlined, LogoutOutlined, BarChartOutlined } from "@ant-design/icons";
 
 const handleLogoutClick = () => {
-  // localStorage.removeItem("user");
+  localStorage.removeItem("user");
   window.location.href = "/auth";
 };
 
 const Navbar = () => (
   <Menu mode="horizontal" style={{ lineHeight: "48px", position: "fixed", width: "100%", zIndex: 1000, padding: "0px 10px" }}>
-    <Menu.Item key="clients" icon={<UserOutlined />}>
-      <Link to="clients">Клиенты</Link>
-    </Menu.Item>
     <Menu.Item key="requests" icon={<SolutionOutlined />}>
       <Link to="requests">Заявки</Link>
+    </Menu.Item>
+    <Menu.Item key="clients" icon={<UserOutlined />}>
+      <Link to="clients">Клиенты</Link>
     </Menu.Item>
     <Menu.Item key="machines" icon={<CarOutlined />}>
       <Link to="machines">Машины</Link>
