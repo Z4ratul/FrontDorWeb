@@ -22,7 +22,7 @@ function MainPage() {
       <Content
         style={{
           padding: "24px 0px",
-          margin: "48px 240px",
+          margin: "48px 10px",
           minHeight: 280,
         }}>
         <Routes>

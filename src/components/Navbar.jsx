@@ -10,7 +10,7 @@ const handleLogoutClick = () => {
 };
 
 const Navbar = () => (
-  <Menu mode="horizontal" style={{ lineHeight: "48px", position: "fixed", width: "100%", zIndex: 1000, padding: "0px 240px" }}>
+  <Menu mode="horizontal" style={{ lineHeight: "48px", position: "fixed", width: "100%", zIndex: 1000, padding: "0px 10px" }}>
     <Menu.Item key="clients" icon={<UserOutlined />}>
       <Link to="clients">Клиенты</Link>
     </Menu.Item>

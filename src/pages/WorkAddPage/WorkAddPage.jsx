@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Select, Button, message } from "antd";
+import { Form, Select, Button, message, Tag } from "antd";
 import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";
 import { BASE_URL } from "../../main";
@@ -46,7 +46,7 @@ const WorkAddPage = () => {
   const [service, setService] = useState(null);
   const [detail, setDetail] = useState(null);
   const [request, setRequest] = useState(null);
-
+  console.log(employees);
   const handleSubmit = async (values) => {
     try {
       // Найти ID статуса "В работе"
@@ -107,11 +107,13 @@ const WorkAddPage = () => {
         </Form.Item>
         <Form.Item name="employee" label="Сотрудник" rules={[{ required: true, message: "Пожалуйста, выберите сотрудника" }]}>
           <Select placeholder="Выберите сотрудника" allowClear>
-            {employees.map((emp) => (
-              <Option key={emp.id} value={emp.id}>
-                {emp.name} {emp.surname}
-              </Option>
-            ))}
+            {employees
+              .filter((emp) => emp.PositionId != 1)
+              .map((emp) => (
+                <Option key={emp.id} value={emp.id}>
+                  {emp.name} {emp.surname} <Tag color="#F4C55C" style={{color: "black"}}>Должность: {emp?.Position?.name}</Tag> 
+                </Option>
+              ))}
           </Select>
         </Form.Item>
         <Form.Item name="detail" label="Деталь">

@@ -58,7 +58,7 @@ const WorksPage = () => {
   return (
     <div>
       <List
-        grid={{ gutter: 16, column: 3 }}
+        grid={{ gutter: 16, column: 4 }}
         dataSource={works}
         renderItem={(work) => (
           <List.Item>

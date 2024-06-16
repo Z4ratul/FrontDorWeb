@@ -19,6 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             colorBgContainer: "#b1b1b1",
             
           },
+
         }}>
         <App />
       </ConfigProvider>

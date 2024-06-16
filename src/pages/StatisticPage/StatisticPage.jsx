@@ -1,23 +1,15 @@
-import React from 'react';
-import axios from 'axios';
-import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { BASE_URL } from '../../main';
-import { useQuery } from 'react-query';
+import React from "react";
+import axios from "axios";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { BASE_URL } from "../../main";
+import { useQuery } from "react-query";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const fetchRequests = async () => {
   const { data } = await axios.get(`${BASE_URL}/api/request/partner/web`);
-  console.log(data)
+  console.log(data);
   return data;
 };
 
@@ -29,22 +21,19 @@ const StatisticPage = () => {
 
   const monthlyCounts = Array(12).fill(0);
 
-  requests.forEach(request => {
+  requests.forEach((request) => {
     const month = new Date(request.openDate).getMonth();
     monthlyCounts[month]++;
   });
 
   const data = {
-    labels: [
-      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 
-      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-    ],
+    labels: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
     datasets: [
       {
-        label: 'Количество заявок',
+        label: "Количество заявок",
         data: monthlyCounts,
-        backgroundColor: 'rgba(255, 205, 86, 0.2)',
-        borderColor: 'rgba(255, 159, 64, 1)',
+        backgroundColor: "rgba(255, 205, 86, 0.2)",
+        borderColor: "rgba(255, 159, 64, 1)",
         borderWidth: 1,
       },
     ],
@@ -54,11 +43,11 @@ const StatisticPage = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       title: {
         display: true,
-        text: 'Количество заявок по месяцам за текущий год',
+        text: "Количество заявок по месяцам за текущий год",
       },
     },
     scales: {
